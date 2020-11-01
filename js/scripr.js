@@ -80,13 +80,4 @@
 // hearts.forEach(function(item){
 //     console.log(item);
 // })
-let box = document.getElementById("box");
-let btns = document.getElementsByTagName("button");
-let hearts = document.querySelectorAll(".heart");
-let wrapper = document.querySelector(".wrapper");
-
-let div = document.createElement('div');
-div.classList.add('black');
-//hearts[0].remove();
-wrapper.prepend(div);
-div.innerHTML = "<h1>Hello</h1>";
+console.log(1);
