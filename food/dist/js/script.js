@@ -87,12 +87,17 @@ function getZero(num){
 
         modalTrigger.forEach(btn => {
             btn.addEventListener('click', () => {
-                modal.style.display = 'block';
-                modal.classList.add('show');
-                modal.classList.remove('hide');
-                document.body.style.overflow = 'hidden';
+                openModal();
             })
         })
+
+        function openModal(){
+            modal.style.display = 'block';
+            modal.classList.add('show');
+            modal.classList.remove('hide');
+            document.body.style.overflow = 'hidden';
+            clearInterval(timeModal);
+        }
 
         function closeModal(){
             modal.style.display = 'none';
@@ -100,6 +105,8 @@ function getZero(num){
             modal.classList.remove('show');
             document.body.style.overflow = '';
         }
+
+       // let timeModal = setInterval(openModal, 5000);
 
         modalCloseBtn.addEventListener('click', closeModal);
 
@@ -114,7 +121,74 @@ function getZero(num){
         });
 
 
+        function showOpenModal(){
+            if (window.pageYOffset + document.documentElement.clientHeight == document.documentElement.scrollHeight)
+                openModal();
+            window.removeEventListener('scroll', showOpenModal);
+        }
 
+        window.addEventListener('scroll', showOpenModal);
+
+        //Использование классов для кааточек
+
+        class MenuCard{
+            constructor(src, alt, title, disc, price,parentSelector){
+                this.src = src;
+                this.alt = alt;
+                this.title = title;
+                this.disc = disc;
+                this.price = price;
+                this.parent = document.querySelector(parentSelector);
+                this.transfer = 80;
+                this.changeTorRu();
+            }
+            changeTorRu(){
+                this.price = +this.price * +this.transfer;
+            }
+            render(){
+                let element = document.createElement('div');
+                element.innerHTML = `
+                <div class="menu__item">
+                    <img src=${this.src} alt=${this.alt}>
+                    <h3 class="menu__item-subtitle">${this.title}</h3>
+                    <div class="menu__item-descr">${this.disc}</div>
+                    <div class="menu__item-divider"></div>
+                    <div class="menu__item-price">
+                        <div class="menu__item-cost">Цена:</div>
+                        <div class="menu__item-total"><span>${this.price}</span> грн/день</div>
+                    </div>
+                </div>
+                `;
+                this.parent.append(element);
+            }
+        }
+        let div = new MenuCard(
+            "img/tabs/vegy.jpg",
+            "vegy",
+            'Меню "Фитнес"',
+            'Меню "Фитнес" - это новый подход к приготовлению блюд: больше свежих овощей и фруктов. Продукт активных и здоровых людей. Это абсолютно новый продукт с оптимальной ценой и высоким качеством!',
+            "10",
+            ".menu .container"
+        );
+        div.render();
+
+        new MenuCard(
+            "img/tabs/elite.jpg",
+            "elite",
+            'Меню “Премиум”',
+            'В меню “Премиум” мы используем не только красивый дизайн упаковки, но и качественное исполнение блюд. Красная рыба, морепродукты, фрукты - ресторанное меню без похода в ресторан!',
+            15,
+            ".menu .container"
+        ).render();
+
+        new MenuCard(
+            "img/tabs/post.jpg",
+            "post",
+            'Меню "Постное"',
+            'Меню “Постное” - это тщательный подбор ингредиентов: полное отсутствие продуктов животного происхождения, молоко из миндаля, овса, кокоса или гречки, правильное количество белков за счет тофу и импортных вегетарианских стейков.',
+            20,
+            ".menu .container"
+        ).render();
 
 
 
